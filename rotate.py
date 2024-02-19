@@ -2,7 +2,8 @@ import tkinter as tk
 from tkinter import ttk
 import numpy as np
 
-# Generate pyramid vertices
+
+# Pyramid vertices
 def generate_pyramid_points(base_center, base_size, height):
     half_size = base_size / 2
     points = [
@@ -14,11 +15,13 @@ def generate_pyramid_points(base_center, base_size, height):
     points.append(np.array([base_center[0], base_center[1], base_center[2] + height]))
     return points
 
+
 # Rotate points around an axis
 def rotate_points(points, axis_p1, axis_p2, angle):
     axis = np.array(axis_p2) - np.array(axis_p1)
     axis = axis / np.linalg.norm(axis)
-    angle = np.radians(angle)
+    angle = np.radians(angle
+    # Matrix shenanigans
     rotation_matrix = np.array([
         [np.cos(angle) + axis[0]**2 * (1 - np.cos(angle)), axis[0] * axis[1] * (1 - np.cos(angle)) - axis[2] * np.sin(angle), axis[0] * axis[2] * (1 - np.cos(angle)) + axis[1] * np.sin(angle)],
         [axis[1] * axis[0] * (1 - np.cos(angle)) + axis[2] * np.sin(angle), np.cos(angle) + axis[1]**2 * (1 - np.cos(angle)), axis[1] * axis[2] * (1 - np.cos(angle)) - axis[0] * np.sin(angle)],
@@ -26,6 +29,7 @@ def rotate_points(points, axis_p1, axis_p2, angle):
     ])
     rotated_points = [np.dot(rotation_matrix, point - axis_p1) + axis_p1 for point in points]
     return rotated_points
+
 
 # Draw pyramid
 def draw_pyramid(canvas, points):
@@ -37,6 +41,7 @@ def draw_pyramid(canvas, points):
     top_point = points[-1]
     for base_point in base_points:
         canvas.create_line(base_point[0], base_point[1], top_point[0], top_point[1], fill='black')
+
 
 def main():
     root = tk.Tk()
@@ -65,7 +70,7 @@ def main():
     base_size = 100
     height = 120
     points = generate_pyramid_points(base_center, base_size, height)
-
+    
     def update_canvas(event=None):
         try:
             base_2d_center = 200
@@ -82,16 +87,15 @@ def main():
             canvas.create_line(axis_p1[0], axis_p1[1], axis_p2[0], axis_p2[1], fill='red', dash=(4, 2), width=z_factor)
         except ValueError:
             pass
-
+            
     # Binding canvas update to slider changes and input fields
     angle_slider.bind("<Motion>", update_canvas)
     angle_slider.bind("<ButtonRelease-1>", update_canvas)
     for entry in axis_entries:
         entry.bind("<KeyRelease>", update_canvas)
-
     update_canvas()
-
     root.mainloop()
+
 
 if __name__ == "__main__":
     main()
