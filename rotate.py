@@ -1,7 +1,17 @@
+import numpy as np
 import tkinter as tk
 from tkinter import ttk
-import numpy as np
 
+###############################################################
+# ImportError: No module named 'Tkinter' [duplicate] - on LINUX
+###############################################################
+# import sys
+# if sys.version_info[0] == 3:
+#     import tkinter as tk
+#     from tkinter import ttk
+# else:
+#     import Tkinter as tk
+#     from tkinter import ttk
 
 # Pyramid vertices
 def generate_pyramid_points(base_center, base_size, height):
@@ -20,7 +30,7 @@ def generate_pyramid_points(base_center, base_size, height):
 def rotate_points(points, axis_p1, axis_p2, angle):
     axis = np.array(axis_p2) - np.array(axis_p1)
     axis = axis / np.linalg.norm(axis)
-    angle = np.radians(angle
+    angle = np.radians(angle)
     # Matrix shenanigans
     rotation_matrix = np.array([
         [np.cos(angle) + axis[0]**2 * (1 - np.cos(angle)), axis[0] * axis[1] * (1 - np.cos(angle)) - axis[2] * np.sin(angle), axis[0] * axis[2] * (1 - np.cos(angle)) + axis[1] * np.sin(angle)],
